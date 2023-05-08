@@ -1,3 +1,4 @@
+import { useAuthentication } from '../../Components/Hooks/useAuthentication'
 import styles from './Register.module.css'
 import { useState, useEffect } from 'react'
 
@@ -6,10 +7,11 @@ const Register = () => {
     const [displayName, setDisplayName] = useState("")
     const [displayEmail, setDisplayEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [passwordConfirm, setPassWordConfirm] = useState("")
+    const [passwordConfirm, setPasswordConfirm] = useState("")
     const [error, setError] = useState("")
+    const {createUser, error: authError, loading} = useAuthentication()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         setError("")
@@ -17,7 +19,7 @@ const Register = () => {
         const user = {
             displayName,
             displayEmail,
-            password
+            password,
         }
 
         if(password !== passwordConfirm) {
@@ -25,8 +27,17 @@ const Register = () => {
             return
         }
 
-        console.log(user)
+        const res = await createUser(user)
+
+        console.log(res)
     }
+
+    useEffect(() => {
+        if(authError) {
+            setError(authError)
+        }
+    },[authError])
+    
     return (
         <div className={styles.register}>
             <h1>Cadastre-se para postar</h1>
@@ -46,7 +57,7 @@ const Register = () => {
                 <label>
                     <span>E-mail: </span>
                     <input 
-                        type="text" 
+                        type="email" 
                         name='displayEmail'
                         placeholder='Digite seu e-mail'
                         value={displayEmail}
@@ -72,11 +83,12 @@ const Register = () => {
                         name="passwordConfirm"
                         placeholder='Confirme sua senha'
                         value={passwordConfirm}
-                        onChange={(e) => setPassWordConfirm(e.target.value)}    
+                        onChange={(e) => setPasswordConfirm(e.target.value)}    
                         required
                     />
                 </label>
-                <button className='btn' type="submit">Cadastrar</button>
+                {!loading && <button className='btn' type="submit">Cadastrar</button>}
+                {loading && <button className='btn' disabled>Enviando...</button>}
                {error && <p className='error'>{error}</p>} 
             </form>
         </div>
