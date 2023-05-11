@@ -1,3 +1,7 @@
+:root {
+    --white: #FFF;
+}
+
 body {
     background-color: #F6FCFF;
     padding: 0;
@@ -56,7 +60,7 @@ input, textarea {
 
 .btn {
     background-color: #1A8918;
-    color: #FFF;
+    color: var(--white);
     text-align: center;
     cursor: pointer;
     border-radius: 10px;
@@ -67,9 +71,12 @@ input, textarea {
     font-size: 1em;
 }
 
-.btn .btnDark {
+.btnDark {
+    cursor: pointer;
     background-color: #000;
-    border-radius: 0;
+    font-weight: bold;
+    color: var(--white);
+    border: none;
 }
 
 .btn .btnOutline {

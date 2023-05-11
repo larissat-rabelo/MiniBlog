@@ -1,11 +1,9 @@
-import {db} from '../../Firebase/config'
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     updateProfile, 
     signOut, 
-    updateEmail
 } from 'firebase/auth'
 import { useState, useEffect } from 'react'
 
